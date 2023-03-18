@@ -68,10 +68,15 @@ view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text <| "Product name '" ++ model.name ++ "' passed to Elm" ]
-        , div [] [ text <| "Quantity: " ++ String.fromInt model.quantity ]
+        , showQuantity model
         , button [ onClick DecrementClicked, disabled <| model.quantity == 0 ] [ text "-" ]
         , button [ onClick IncrementClicked ] [ text "+" ]
         ]
+
+
+showQuantity : Model -> Html Msg
+showQuantity model =
+    div [] [ text <| "Quantity: " ++ String.fromInt model.quantity ]
 
 
 
@@ -101,7 +106,7 @@ update msg model =
         SetQuantity quantity ->
             updateQuantity model <| max 0 quantity
 
-        _ ->
+        None ->
             ( model, Cmd.none )
 
 

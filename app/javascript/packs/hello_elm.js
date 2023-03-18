@@ -14,11 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
     books: gon.books
   }
 
-  Elm.Sample.init({ node: document.getElementById('elm'), flags })
+  const app = Elm.Sample.init({ node: document.getElementById('elm'), flags })
 
-  component.ports.setQuantity.send(0);
-
-  component.ports.quantityChanged.subscribe((newQuantity) => {
+  app.ports.quantityChanged.subscribe((newQuantity) => {
     console.log(`Quantity changed to: ${newQuantity}`);
   })
+
+  const jsNumber = document.getElementById('js-number')
+  jsNumber.addEventListener("keyup", event => {
+    if (event.isComposing || event.keyCode === 229) {
+      return;
+    }
+    app.ports.setQuantity.send(parseInt(event.target.value))
+  });
 })
